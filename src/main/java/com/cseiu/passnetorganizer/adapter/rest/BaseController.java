@@ -11,7 +11,7 @@ public class BaseController {
     protected ResponseEntity<Object> returnCreated() {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
-    protected ResponseEntity<Object> returnOk(Object body) {
+    protected <T> ResponseEntity<T> returnOk(T body) {
         return ResponseEntity.ok(body);
     }
     protected ResponseEntity<ErrorView> returnNotFound(String message){
