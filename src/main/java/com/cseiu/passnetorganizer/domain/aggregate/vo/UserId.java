@@ -14,15 +14,15 @@ import java.util.Objects;
 @Embeddable
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProfileId implements Serializable {
+public class UserId implements Serializable {
     private String value;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof ProfileId)) return false;
-        ProfileId profileId = (ProfileId) o;
-        return getValue().equals(profileId.getValue());
+        if (!(o instanceof UserId)) return false;
+        UserId userId = (UserId) o;
+        return getValue().equals(userId.getValue());
     }
 
     @Override

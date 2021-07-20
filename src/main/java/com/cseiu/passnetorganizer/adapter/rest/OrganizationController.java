@@ -77,7 +77,7 @@ public class OrganizationController extends BaseController {
 
         var command = AddStudentCommand.builder()
            .cardId(request.getCardId())
-           .profileId(request.getProfileId())
+           .userId(request.getProfileId())
            .departmentId(depId)
            .build();
         command.setAggregateId(orgId);

@@ -40,7 +40,7 @@ public class AddStudentExecutor implements CommandExecutor, CommandConverter<Add
                    var newStudent = Student.builder()
                       .id(new StudentId(uuidService.generate()))
                       .cardId(new StudentCardId(typedCommand.getCardId()))
-                      .profileId(new ProfileId(typedCommand.getProfileId()))
+                      .userId(new UserId(typedCommand.getUserId()))
                       .department(department)
                       .build();
                    department.addStudent(newStudent);

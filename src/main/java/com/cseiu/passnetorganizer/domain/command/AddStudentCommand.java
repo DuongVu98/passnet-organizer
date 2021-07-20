@@ -12,6 +12,6 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 public class AddStudentCommand extends BaseCommand {
     String cardId;
-    String profileId;
+    String userId;
     String departmentId;
 }
