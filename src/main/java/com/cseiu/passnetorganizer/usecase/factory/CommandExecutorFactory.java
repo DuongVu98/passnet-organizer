@@ -1,10 +1,7 @@
 package com.cseiu.passnetorganizer.usecase.factory;
 
 import com.cseiu.passnetorganizer.domain.annotation.ChainSteps;
-import com.cseiu.passnetorganizer.domain.command.AddDepartmentCommand;
-import com.cseiu.passnetorganizer.domain.command.AddSemesterCommand;
-import com.cseiu.passnetorganizer.domain.command.AddStudentCommand;
-import com.cseiu.passnetorganizer.domain.command.CreateOrganizationCommand;
+import com.cseiu.passnetorganizer.domain.command.*;
 import com.cseiu.passnetorganizer.domain.enums.ExecutorChainStep;
 import com.cseiu.passnetorganizer.usecase.executor.CommandExecutor;
 import com.cseiu.passnetorganizer.usecase.service.ExecutorProvider;
@@ -36,5 +33,10 @@ public class CommandExecutorFactory {
     @ChainSteps(steps = {ExecutorChainStep.COMPENSATING_COMMAND_BACKUP})
     public CommandExecutor produce(AddStudentCommand command) {
         return executorProvider.produceAddStudentExecutor();
+    }
+
+    @ChainSteps(steps = {ExecutorChainStep.COMPENSATING_COMMAND_BACKUP})
+    public CommandExecutor produce(AddNonStudentCommand command){
+        return executorProvider.produceAddNonStudentExecutor();
     }
 }

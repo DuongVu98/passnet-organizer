@@ -4,23 +4,23 @@ import com.cseiu.passnetorganizer.domain.command.BaseCommand;
 import com.cseiu.passnetorganizer.usecase.executor.CommandExecutor;
 import com.cseiu.passnetorganizer.usecase.service.CompensatingBackupService;
 import com.cseiu.passnetorganizer.usecase.service.CompensatingProvider;
+import com.cseiu.passnetorganizer.usecase.service.RequestContextEventStore;
 import lombok.Builder;
-
-import javax.servlet.http.HttpServletRequest;
 
 public class CompensatingBackupStep extends ExecutorChain {
 
     private final CompensatingBackupService compensatingBackupService;
     private final CompensatingProvider compensatingProvider;
-    private final HttpServletRequest request;
+    private final RequestContextEventStore requestContextEventStore;
 
     @Builder
-    public CompensatingBackupStep(CommandExecutor executor, CompensatingBackupService compensatingBackupService, CompensatingProvider compensatingProvider, HttpServletRequest request) {
+    public CompensatingBackupStep(CommandExecutor executor, CompensatingBackupService compensatingBackupService, CompensatingProvider compensatingProvider, RequestContextEventStore requestContextEventStore) {
         super(executor);
         this.compensatingBackupService = compensatingBackupService;
         this.compensatingProvider = compensatingProvider;
-        this.request = request;
+        this.requestContextEventStore = requestContextEventStore;
     }
+
 
     @Override
     public void execute(BaseCommand command) {
@@ -31,6 +31,6 @@ public class CompensatingBackupStep extends ExecutorChain {
     private void backup(BaseCommand command) {
         var compensating = compensatingProvider.build(command);
         compensatingBackupService.addToStore(compensating.getEventId(), compensating);
-        this.request.getSession().setAttribute("eventId", compensating.getEventId());
+        requestContextEventStore.release();
     }
 }

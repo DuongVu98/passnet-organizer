@@ -5,22 +5,22 @@ option java_package = "com.cseiu.passnet.saga.organizersaga";
 package consumeEvents;
 
 service EventConsumer {
-    rpc ConsumeUserRegisteredEvent(UserRegisteredEvent) returns (ServiceResponse) {}
+    rpc ConsumeUserRegisteredEvent(UserRegisteredEventProtobuf) returns (ServiceResponseProtobuf) {}
 }
 
 service CompensatingExecutor {
-    rpc rollback(EventId) returns (ServiceResponse) {}
+    rpc rollback(EventIdProtobuf) returns (ServiceResponseProtobuf) {}
 }
 
-message EventId {
+message EventIdProtobuf {
     string eventId = 1;
 }
 
-message ServiceResponse {
+message ServiceResponseProtobuf {
     string message = 1;
 }
 
-message UserRegisteredEvent {
+message UserRegisteredEventProtobuf {
     string eventId = 1;
     string uid = 2;
     string username = 3;

@@ -16,9 +16,11 @@ import com.cseiu.passnetorganizer.usecase.feature.CompensatingConverter;
 import com.cseiu.passnetorganizer.usecase.service.UuidService;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.extern.slf4j.Slf4j;
 
 @Builder
 @AllArgsConstructor
+@Slf4j(topic = "[AddStudentExecutor]")
 public class AddStudentExecutor implements CommandExecutor, CompensatingHandler, CompensatingConverter<AddStudentCommand, AddStudentCompensating> {
 
     private final OrganizationRepository organizationRepository;
@@ -29,7 +31,7 @@ public class AddStudentExecutor implements CommandExecutor, CompensatingHandler,
     @Override
     public void execute(BaseCommand command) {
         var typedCommand = convertCommand(command);
-
+        log.info("Execute command [{}]", typedCommand.toString());
         this.organizationRepository.findById(new OrgId(typedCommand.getAggregateId())).ifPresentOrElse(
            org -> {
                var department = checkDepartmentExists(findDepartment(typedCommand.getDepartmentId()), org);

@@ -2,6 +2,7 @@ package com.cseiu.passnetorganizer.adapter.grpc;
 
 import com.cseiu.passnet.saga.organizersaga.CompensatingExecutorGrpc;
 import com.cseiu.passnet.saga.organizersaga.ConsumeEvents;
+import com.cseiu.passnetorganizer.domain.compensating.AddNonStudentCompensating;
 import com.cseiu.passnetorganizer.domain.compensating.AddStudentCompensating;
 import com.cseiu.passnetorganizer.domain.compensating.BaseCompensating;
 import com.cseiu.passnetorganizer.domain.exception.CompensatingHandlerNorFoundException;
@@ -27,13 +28,13 @@ public class CompensatingGrpcController extends CompensatingExecutorGrpc.Compens
     }
 
     @Override
-    public void rollback(ConsumeEvents.EventId request, StreamObserver<ConsumeEvents.ServiceResponse> responseObserver) {
+    public void rollback(ConsumeEvents.EventIdProtobuf request, StreamObserver<ConsumeEvents.ServiceResponseProtobuf> responseObserver) {
         var compensating = compensatingBackupService.getFromStore(request.getEventId());
         try {
             var handler = buildHandler(compensating);
             handler.reverse(compensating);
 
-            responseObserver.onNext(ConsumeEvents.ServiceResponse.newBuilder().setMessage("SUCCESS").build());
+            responseObserver.onNext(ConsumeEvents.ServiceResponseProtobuf.newBuilder().setMessage("SUCCESS").build());
         } catch (CompensatingHandlerNorFoundException exception) {
 
             log.error("CompensatingHandlerNorFound: {}", exception.getMessage());
@@ -47,6 +48,8 @@ public class CompensatingGrpcController extends CompensatingExecutorGrpc.Compens
     private CompensatingHandler buildHandler(BaseCompensating compensating) {
         if (compensating instanceof AddStudentCompensating) {
             return compensatingHandlerFactory.produce((AddStudentCompensating) compensating);
+        } else if (compensating instanceof AddNonStudentCompensating) {
+            return compensatingHandlerFactory.produce((AddNonStudentCompensating) compensating);
         } else {
             throw new CompensatingHandlerNorFoundException("Compensating type not found");
         }

@@ -3,10 +3,7 @@ package com.cseiu.passnetorganizer.usecase.service;
 import com.cseiu.passnetorganizer.domain.repository.DepartmentRepository;
 import com.cseiu.passnetorganizer.domain.repository.OrganizationRepository;
 import com.cseiu.passnetorganizer.domain.repository.StudentRepository;
-import com.cseiu.passnetorganizer.usecase.executor.AddDepartmentExecutor;
-import com.cseiu.passnetorganizer.usecase.executor.AddSemesterExecutor;
-import com.cseiu.passnetorganizer.usecase.executor.AddStudentExecutor;
-import com.cseiu.passnetorganizer.usecase.executor.CreateOrganizationExecutor;
+import com.cseiu.passnetorganizer.usecase.executor.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -53,5 +50,9 @@ public class ExecutorProvider {
            .studentRepository(studentRepository)
            .uuidService(uuidService)
            .build();
+    }
+
+    public AddNonStudentExecutor produceAddNonStudentExecutor(){
+        return new AddNonStudentExecutor();
     }
 }

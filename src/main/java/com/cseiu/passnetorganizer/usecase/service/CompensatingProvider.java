@@ -11,10 +11,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class CompensatingProvider {
     private final UuidService uuidService;
+    private final RequestContextEventStore requestContextEventStore;
 
     @Autowired
-    public CompensatingProvider(UuidService uuidService) {
+    public CompensatingProvider(UuidService uuidService, RequestContextEventStore requestContextEventStore) {
         this.uuidService = uuidService;
+        this.requestContextEventStore = requestContextEventStore;
     }
 
     public BaseCompensating build(BaseCommand command) {
@@ -28,7 +30,7 @@ public class CompensatingProvider {
     public AddStudentCompensating build(AddStudentCommand command) {
         return AddStudentCompensating.builder()
            .eventId(uuidService.generate())
-           .organizationId(command.getAggregateId())
+           .organizationId(requestContextEventStore.getEventId())
            .userId(command.getUserId())
            .build();
     }
