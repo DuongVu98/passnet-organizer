@@ -8,7 +8,7 @@ import lombok.Builder;
 
 import javax.servlet.http.HttpServletRequest;
 
-public class CompensatingBackupStep extends ExecutorChain{
+public class CompensatingBackupStep extends ExecutorChain {
 
     private final CompensatingBackupService compensatingBackupService;
     private final CompensatingProvider compensatingProvider;
@@ -28,7 +28,7 @@ public class CompensatingBackupStep extends ExecutorChain{
         this.executor.execute(command);
     }
 
-    private void backup(BaseCommand command){
+    private void backup(BaseCommand command) {
         var compensating = compensatingProvider.build(command);
         compensatingBackupService.addToStore(compensating.getEventId(), compensating);
         this.request.getSession().setAttribute("eventId", compensating.getEventId());

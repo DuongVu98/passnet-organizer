@@ -7,7 +7,7 @@ import lombok.experimental.FieldDefaults;
 
 @Getter
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
-public class AddStudentCompensating extends BaseCompensating{
+public class AddStudentCompensating extends BaseCompensating {
     String organizationId;
     String userId;
 

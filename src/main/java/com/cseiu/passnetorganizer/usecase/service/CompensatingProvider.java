@@ -18,7 +18,7 @@ public class CompensatingProvider {
     }
 
     public BaseCompensating build(BaseCommand command) {
-        if(command instanceof AddStudentCommand) {
+        if (command instanceof AddStudentCommand) {
             return build((AddStudentCommand) command);
         } else {
             throw new WrongCommandTypeException("transaction command is not included.");

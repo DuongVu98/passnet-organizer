@@ -20,7 +20,7 @@ public class CreateOrganizationExecutor implements CommandExecutor, CommandConve
 
     @Override
     public void execute(BaseCommand command) {
-        var typedCommand = convert(command);
+        var typedCommand = convertCommand(command);
         var newOrg = Organization.builder()
            .id(new OrgId(typedCommand.getAggregateId()))
            .name(new Name(typedCommand.getName()))
@@ -31,7 +31,7 @@ public class CreateOrganizationExecutor implements CommandExecutor, CommandConve
     }
 
     @Override
-    public CreateOrganizationCommand convert(BaseCommand command) {
+    public CreateOrganizationCommand convertCommand(BaseCommand command) {
         if (command instanceof CreateOrganizationCommand) {
             return (CreateOrganizationCommand) command;
         } else {

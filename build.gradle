@@ -2,6 +2,7 @@ plugins {
     id 'org.springframework.boot' version '2.5.2'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'java'
+    id "com.google.protobuf" version "0.8.16"
 }
 
 group = 'com.cseiu'
@@ -18,11 +19,40 @@ repositories {
     mavenCentral()
 }
 
+sourceSets {
+    main {
+        proto {
+            srcDir 'src/main/resources/proto'
+        }
+        java {
+            srcDirs 'src/main/java'
+            srcDirs 'src/generated/main/java'
+            srcDirs 'src/generated/main/grpc'
+        }
+    }
+}
+protobuf {
+    protoc {
+        artifact = "com.google.protobuf:protoc:3.7.0"
+    }
+    plugins {
+        grpc {
+            artifact = "io.grpc:protoc-gen-grpc-java:1.19.0"
+        }
+    }
+    generateProtoTasks {
+        all()*.plugins {
+            grpc {}
+        }
+    }
+    generateProtoTasks.generatedFilesBaseDir = 'src/generated'
+}
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-aop'
+    implementation 'net.devh:grpc-spring-boot-starter:2.12.0.RELEASE'
     compileOnly 'org.projectlombok:lombok'
     runtimeOnly 'mysql:mysql-connector-java'
     annotationProcessor 'org.projectlombok:lombok'
@@ -31,6 +61,15 @@ dependencies {
 
 test {
     useJUnitPlatform()
+}
+
+bootJar {
+    archiveName 'PassneOrganizer.jar'
+    manifest {
+        attributes(
+                'Start-Class': 'com.cseiu.passnetorganizer.PassnetOrganizerApplication'
+        )
+    }
 }
 
 task bootRunLocal(dependsOn: bootRun) {

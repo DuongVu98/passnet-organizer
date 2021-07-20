@@ -1,9 +1,9 @@
 package com.cseiu.passnetorganizer.domain.aggregate.entity;
 
 
-import com.cseiu.passnetorganizer.domain.aggregate.vo.UserId;
 import com.cseiu.passnetorganizer.domain.aggregate.vo.StudentCardId;
 import com.cseiu.passnetorganizer.domain.aggregate.vo.StudentId;
+import com.cseiu.passnetorganizer.domain.aggregate.vo.UserId;
 import lombok.*;
 
 import javax.persistence.*;
