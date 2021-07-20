@@ -1,6 +1,6 @@
 package com.cseiu.passnetorganizer.domain.exception;
 
-public class StudentCardIdExistedException extends RuntimeException{
+public class StudentCardIdExistedException extends RuntimeException {
     public StudentCardIdExistedException(String message) {
         super(message);
     }

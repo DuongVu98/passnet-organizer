@@ -57,7 +57,7 @@ public class AddDepartmentExecutor implements CommandExecutor, CommandConverter<
     }
 
     private void checkDepartmentCodeExist(String departmentCode, Organization organization) {
-        if(departmentRepository.existsDepartmentByCode(new DepartmentCode(departmentCode), organization)){
+        if (departmentRepository.existsDepartmentByCode(new DepartmentCode(departmentCode), organization)) {
             throw new DepartmentAlreadyExistException(String.format("Department with code [%s] already existed.", departmentCode));
         }
     }

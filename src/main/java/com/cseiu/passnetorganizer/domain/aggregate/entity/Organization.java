@@ -43,10 +43,12 @@ public class Organization extends BaseEntity {
     public void addDepartment(Department department) {
         this.departments.add(department);
     }
+
     public void addSemester(Semester semester) {
         this.semesters.add(semester);
     }
-    public boolean containsDepartment(Department department){
+
+    public boolean containsDepartment(Department department) {
         return this.id.equals(department.getOrganization().getId());
     }
 }

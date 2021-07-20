@@ -21,14 +21,17 @@ public class CommandGateway {
         var executor = executorFactory.produce(command);
         executor.execute(command);
     }
+
     public void send(AddDepartmentCommand command) {
         var executor = executorFactory.produce(command);
         executor.execute(command);
     }
+
     public void send(AddSemesterCommand command) {
         var executor = executorFactory.produce(command);
         executor.execute(command);
     }
+
     public void send(AddStudentCommand command) {
         var executor = executorFactory.produce(command);
         executor.execute(command);

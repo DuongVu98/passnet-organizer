@@ -36,21 +36,22 @@ public class ExecutorFactory {
            .build();
     }
 
-    public CommandExecutor produce(AddDepartmentCommand command){
+    public CommandExecutor produce(AddDepartmentCommand command) {
         return AddDepartmentExecutor.builder()
            .organizationRepository(organizationRepository)
            .departmentRepository(departmentRepository)
            .uuidService(uuidService)
            .build();
     }
-    public CommandExecutor produce(AddSemesterCommand command){
+
+    public CommandExecutor produce(AddSemesterCommand command) {
         return AddSemesterExecutor.builder()
            .organizationRepository(organizationRepository)
            .uuidService(uuidService)
            .build();
     }
 
-    public CommandExecutor produce(AddStudentCommand command){
+    public CommandExecutor produce(AddStudentCommand command) {
         return AddStudentExecutor.builder()
            .organizationRepository(organizationRepository)
            .departmentRepository(departmentRepository)

@@ -1,6 +1,9 @@
 package com.cseiu.passnetorganizer.domain.aggregate.vo;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.hibernate.Hibernate;
 
 import javax.persistence.Embeddable;

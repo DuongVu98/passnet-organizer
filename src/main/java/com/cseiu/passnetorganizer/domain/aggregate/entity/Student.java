@@ -15,7 +15,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "student")
-public class Student extends BaseEntity{
+public class Student extends BaseEntity {
 
     @EmbeddedId
     @AttributeOverride(name = "value", column = @Column(name = "id"))

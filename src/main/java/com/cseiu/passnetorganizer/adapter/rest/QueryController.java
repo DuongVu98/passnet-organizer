@@ -14,7 +14,7 @@ import java.util.List;
 @RestController
 @CrossOrigin("*")
 @RequestMapping(value = "/api/query")
-public class QueryController extends BaseController{
+public class QueryController extends BaseController {
     private final ViewProjector projector;
 
     @Autowired
@@ -23,7 +23,7 @@ public class QueryController extends BaseController{
     }
 
     @GetMapping("/organizations")
-    public ResponseEntity<List<OrganizationLiteView>> getAllOrganization(){
+    public ResponseEntity<List<OrganizationLiteView>> getAllOrganization() {
         return returnOk(projector.query(new GetAllOrganizationQuery()));
     }
 

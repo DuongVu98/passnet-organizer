@@ -1,6 +1,6 @@
 package com.cseiu.passnetorganizer.domain.exception;
 
-public class CommandNotCompatibleException extends RuntimeException{
+public class CommandNotCompatibleException extends RuntimeException {
     public CommandNotCompatibleException(String message) {
         super(message);
     }

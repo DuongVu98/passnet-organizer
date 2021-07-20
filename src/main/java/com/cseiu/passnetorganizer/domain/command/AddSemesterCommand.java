@@ -11,7 +11,7 @@ import lombok.experimental.FieldDefaults;
 @Builder
 @AllArgsConstructor
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
-public class AddSemesterCommand extends BaseCommand{
+public class AddSemesterCommand extends BaseCommand {
     String name;
     AcademicMonth startMonth;
     AcademicMonth endMonth;

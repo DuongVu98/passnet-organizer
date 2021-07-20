@@ -30,7 +30,7 @@ public class OrganizationController extends BaseController {
     }
 
     @PostMapping(value = "/create")
-    public ResponseEntity<Object> createOrganization(@Valid @RequestBody CreateOrganizationRequest request){
+    public ResponseEntity<Object> createOrganization(@Valid @RequestBody CreateOrganizationRequest request) {
         log.info("Receive request: [{}]", request.toString());
 
         var command = CreateOrganizationCommand.builder()
@@ -43,7 +43,7 @@ public class OrganizationController extends BaseController {
     }
 
     @PostMapping(value = "/{id}/add-department")
-    public ResponseEntity<Object> addDepartment(@PathVariable("id") String orgId, @Valid @RequestBody AddDepartmentRequest request){
+    public ResponseEntity<Object> addDepartment(@PathVariable("id") String orgId, @Valid @RequestBody AddDepartmentRequest request) {
         log.info("Receive request: [{}]", request.toString());
 
         var command = AddDepartmentCommand.builder()
@@ -72,7 +72,7 @@ public class OrganizationController extends BaseController {
     }
 
     @PostMapping(value = "/{orgId}/department/{depId}/add-student")
-    public ResponseEntity<Object> addStudent(@PathVariable("orgId") String orgId, @PathVariable("depId") String depId, @Valid @RequestBody AddStudentRequest request){
+    public ResponseEntity<Object> addStudent(@PathVariable("orgId") String orgId, @PathVariable("depId") String depId, @Valid @RequestBody AddStudentRequest request) {
         log.info("Receive request: [{}]", request.toString());
 
         var command = AddStudentCommand.builder()

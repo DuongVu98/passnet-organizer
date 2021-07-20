@@ -26,13 +26,13 @@ public class ViewProjector {
         this.departmentRepository = departmentRepository;
     }
 
-    public List<OrganizationLiteView> query(GetAllOrganizationQuery query){
+    public List<OrganizationLiteView> query(GetAllOrganizationQuery query) {
         return organizationRepository.findAll().stream()
            .map(organization -> new OrganizationMapper(organization).toLiteView())
            .collect(Collectors.toList());
     }
 
-    public List<DepartmentView> query(GetDepartmentByOrg query){
+    public List<DepartmentView> query(GetDepartmentByOrg query) {
         return departmentRepository.findByOrganizationId(new OrgId(query.getOrgId())).stream()
            .map(department -> new DepartmentMapper(department).toLiteView())
            .collect(Collectors.toList());

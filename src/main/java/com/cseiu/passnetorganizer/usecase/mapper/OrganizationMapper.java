@@ -13,7 +13,7 @@ public class OrganizationMapper {
     @NonNull
     private Organization instance;
 
-    public OrganizationLiteView toLiteView(){
+    public OrganizationLiteView toLiteView() {
         return OrganizationLiteView.builder()
            .id(instance.getId().getValue())
            .name(instance.getName().getValue())

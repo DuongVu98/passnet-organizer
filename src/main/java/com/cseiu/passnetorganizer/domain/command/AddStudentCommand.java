@@ -10,7 +10,7 @@ import lombok.experimental.FieldDefaults;
 @Builder
 @AllArgsConstructor
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
-public class AddStudentCommand extends BaseCommand{
+public class AddStudentCommand extends BaseCommand {
     String cardId;
     String profileId;
     String departmentId;
