@@ -2,8 +2,10 @@ package com.cseiu.passnetorganizer.adapter.rest;
 
 import com.cseiu.passnetorganizer.domain.query.GetAllOrganizationQuery;
 import com.cseiu.passnetorganizer.domain.query.GetDepartmentByOrg;
+import com.cseiu.passnetorganizer.domain.query.GetStudentByUid;
 import com.cseiu.passnetorganizer.domain.view.DepartmentView;
 import com.cseiu.passnetorganizer.domain.view.OrganizationLiteView;
+import com.cseiu.passnetorganizer.domain.view.MemberView;
 import com.cseiu.passnetorganizer.usecase.query.ViewProjector;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -30,5 +32,10 @@ public class QueryController extends BaseController {
     @GetMapping("/organizations/{id}/departments")
     public ResponseEntity<List<DepartmentView>> getDepartmentByOrg(@PathVariable("id") String orgId) {
         return returnOk(projector.query(new GetDepartmentByOrg(orgId)));
+    }
+
+    @GetMapping("/student")
+    public ResponseEntity<MemberView> getStudentByUid(@RequestParam("uid") String userId){
+        return returnOk(projector.query(new GetStudentByUid(userId)));
     }
 }

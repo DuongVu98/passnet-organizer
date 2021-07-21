@@ -19,4 +19,6 @@ public interface StudentRepository extends JpaRepository<Student, StudentId> {
 
     @Query("select s from Student s where s.userId = ?1 and s.department.organization.id = ?2")
     Optional<Student> findStudentByUidAndOrgId(UserId userId, OrgId organization);
+
+    Optional<Student> findStudentByUserId(UserId userId);
 }
