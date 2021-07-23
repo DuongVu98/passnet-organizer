@@ -33,4 +33,9 @@ public class Student extends BaseEntity {
     @JoinColumn(name = "department_id")
     @ManyToOne(fetch = FetchType.EAGER)
     private Department department;
+
+    @ToString.Exclude
+    @JoinColumn(name = "teacher_org_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Organization teacherOrganization;
 }

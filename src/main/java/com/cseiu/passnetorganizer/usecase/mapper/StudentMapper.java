@@ -6,6 +6,8 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
+import java.util.Optional;
+
 @RequiredArgsConstructor
 @FieldDefaults(makeFinal = true)
 public class StudentMapper {
@@ -14,11 +16,18 @@ public class StudentMapper {
     private Student instance;
 
     public MemberView toStudentView() {
-        return MemberView.builder()
-           .cardId(instance.getCardId().getValue())
-           .department(new DepartmentMapper(instance.getDepartment()).toLiteView())
-           .organization(new OrganizationMapper(instance.getDepartment().getOrganization()).toLiteView())
-           .profileType("STUDENT")
-           .build();
+        if (Optional.ofNullable(instance.getCardId()).isPresent()){
+            return MemberView.builder()
+               .cardId(instance.getCardId().getValue())
+               .department(new DepartmentMapper(instance.getDepartment()).toLiteView())
+               .organization(new OrganizationMapper(instance.getDepartment().getOrganization()).toLiteView())
+               .profileType("STUDENT")
+               .build();
+        } else {
+            return MemberView.builder()
+               .profileType("TEACHER")
+               .organization(new OrganizationMapper(instance.getTeacherOrganization()).toLiteView())
+               .build();
+        }
     }
 }

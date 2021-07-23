@@ -53,6 +53,10 @@ public class ExecutorProvider {
     }
 
     public AddNonStudentExecutor produceAddNonStudentExecutor(){
-        return new AddNonStudentExecutor();
+        return AddNonStudentExecutor.builder()
+           .studentRepository(studentRepository)
+           .organizationRepository(organizationRepository)
+           .uuidService(uuidService)
+           .build();
     }
 }

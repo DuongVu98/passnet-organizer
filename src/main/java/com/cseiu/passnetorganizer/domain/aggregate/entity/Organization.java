@@ -40,6 +40,11 @@ public class Organization extends BaseEntity {
     @OneToMany(mappedBy = "organization", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
     private List<Semester> semesters = new ArrayList<>();
 
+    @Builder.Default
+    @ToString.Exclude
+    @OneToMany(mappedBy = "teacherOrganization", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
+    private List<Student> nonStudents = new ArrayList<>();
+
     public void addDepartment(Department department) {
         this.departments.add(department);
     }

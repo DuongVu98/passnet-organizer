@@ -36,7 +36,7 @@ public class EventConsumingGrpcController extends EventConsumerGrpc.EventConsume
             if(request.getProfileRole().equals("STUDENT")) {
                 commandGateway.send(buildAddStudentCommand(request));
             } else {
-                commandGateway.send(buildAddNonStudentCommand());
+                commandGateway.send(buildAddNonStudentCommand(request));
             }
             responseObserver.onNext(ConsumeEvents.ServiceResponseProtobuf.newBuilder().setMessage(SUCCESS).build());
         } catch (Exception exception) {
@@ -56,7 +56,10 @@ public class EventConsumingGrpcController extends EventConsumerGrpc.EventConsume
            .departmentId(request.getDepartmentId())
            .build();
     }
-    private AddNonStudentCommand buildAddNonStudentCommand() {
-        return new AddNonStudentCommand();
+    private AddNonStudentCommand buildAddNonStudentCommand(ConsumeEvents.UserRegisteredEventProtobuf request) {
+        return AddNonStudentCommand.builder()
+            .aggregateId(request.getOrganizationId())
+           .userId(request.getUid())
+           .build();
     }
 }

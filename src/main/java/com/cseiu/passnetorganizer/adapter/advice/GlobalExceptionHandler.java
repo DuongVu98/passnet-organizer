@@ -4,6 +4,7 @@ import com.cseiu.passnetorganizer.adapter.rest.BaseController;
 import com.cseiu.passnetorganizer.domain.exception.DepartmentAlreadyExistException;
 import com.cseiu.passnetorganizer.domain.exception.DepartmentNotFoundException;
 import com.cseiu.passnetorganizer.domain.exception.OrganizationNotFoundException;
+import com.cseiu.passnetorganizer.domain.exception.StudentNotFoundException;
 import com.cseiu.passnetorganizer.domain.view.ErrorView;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.ResponseEntity;
@@ -37,6 +38,11 @@ public class GlobalExceptionHandler extends BaseController {
 
     @ExceptionHandler(DepartmentAlreadyExistException.class)
     public ResponseEntity<ErrorView> handle(DepartmentAlreadyExistException exception) {
+        return returnNotFound(exception.getMessage());
+    }
+
+    @ExceptionHandler(StudentNotFoundException.class)
+    public ResponseEntity<ErrorView> handle(StudentNotFoundException exception) {
         return returnNotFound(exception.getMessage());
     }
 }
