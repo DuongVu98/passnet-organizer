@@ -64,7 +64,7 @@ test {
 }
 
 bootJar {
-    archiveName 'PassneOrganizer.jar'
+    archiveName 'PassnetOrganizer.jar'
     manifest {
         attributes(
                 'Start-Class': 'com.cseiu.passnetorganizer.PassnetOrganizerApplication'

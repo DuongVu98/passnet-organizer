@@ -1,0 +1,29 @@
+server:
+  port: ${SERVER_PORT_LISTENER}
+spring:
+  application:
+    name: passnet-organizer
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ${DATABASE_URL}
+    username: ${DATABASE_USERNAME}
+    password: ${DATABASE_PASSWORD}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    generate-ddl: true
+    properties:
+      hibernate:
+        format_sql: false
+        generate_statistics: false
+        enable_lazy_load_no_trans: true
+grpc:
+  server:
+    port: ${GRPC_PORT_LISTENER}
+  client:
+    saga-organizer:
+      address: 'static://${ORGANIZER_SAGA_ADDRESS}'
+      enableKeepAlive: true
+      keepAliveWithoutCalls: true
+      negotiationType: plaintext
