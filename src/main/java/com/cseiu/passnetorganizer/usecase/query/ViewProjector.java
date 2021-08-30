@@ -72,7 +72,7 @@ public class ViewProjector {
     }
 
     public SemesterView query(GetSemesterById query){
-        var sem = semesterRepository.findById(new SemesterId(query.getSemId())).orElseThrow(() -> new SemesterNotFoundException(String.format("Semester with id [{}] not found", query.getSemId())));
+        var sem = semesterRepository.findById(new SemesterId(query.getSemId())).orElseThrow(() -> new SemesterNotFoundException(String.format("Semester with id %s not found", query.getSemId())));
            return SemesterView.builder()
               .id(sem.getId().getValue())
               .name(sem.getName().getValue())
