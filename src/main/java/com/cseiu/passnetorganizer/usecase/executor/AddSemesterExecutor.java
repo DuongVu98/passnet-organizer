@@ -23,7 +23,7 @@ public class AddSemesterExecutor implements CommandExecutor, CommandConverter<Ad
 
     @Override
     public void execute(BaseCommand command) {
-        var typedCommand = convert(command);
+        var typedCommand = convertCommand(command);
         this.organizationRepository.findById(new OrgId(typedCommand.getAggregateId())).ifPresentOrElse(
            org -> {
                var newSem = Semester.builder()
@@ -43,7 +43,7 @@ public class AddSemesterExecutor implements CommandExecutor, CommandConverter<Ad
     }
 
     @Override
-    public AddSemesterCommand convert(BaseCommand command) {
+    public AddSemesterCommand convertCommand(BaseCommand command) {
         if (command instanceof AddSemesterCommand) {
             return (AddSemesterCommand) command;
         } else {

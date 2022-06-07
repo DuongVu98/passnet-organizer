@@ -1,9 +1,9 @@
 package com.cseiu.passnetorganizer.domain.aggregate.entity;
 
 
-import com.cseiu.passnetorganizer.domain.aggregate.vo.ProfileId;
 import com.cseiu.passnetorganizer.domain.aggregate.vo.StudentCardId;
 import com.cseiu.passnetorganizer.domain.aggregate.vo.StudentId;
+import com.cseiu.passnetorganizer.domain.aggregate.vo.UserId;
 import lombok.*;
 
 import javax.persistence.*;
@@ -26,11 +26,16 @@ public class Student extends BaseEntity {
     private StudentCardId cardId;
 
     @Embedded
-    @AttributeOverride(name = "value", column = @Column(name = "profile_id"))
-    private ProfileId profileId;
+    @AttributeOverride(name = "value", column = @Column(name = "user_id"))
+    private UserId userId;
 
     @ToString.Exclude
     @JoinColumn(name = "department_id")
     @ManyToOne(fetch = FetchType.EAGER)
     private Department department;
+
+    @ToString.Exclude
+    @JoinColumn(name = "teacher_org_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Organization teacherOrganization;
 }

@@ -2,10 +2,7 @@ package com.cseiu.passnetorganizer.adapter.rest;
 
 import com.cseiu.passnetorganizer.adapter.controller.CommandGateway;
 import com.cseiu.passnetorganizer.domain.aggregate.vo.AcademicMonth;
-import com.cseiu.passnetorganizer.domain.command.AddDepartmentCommand;
-import com.cseiu.passnetorganizer.domain.command.AddSemesterCommand;
-import com.cseiu.passnetorganizer.domain.command.AddStudentCommand;
-import com.cseiu.passnetorganizer.domain.command.CreateOrganizationCommand;
+import com.cseiu.passnetorganizer.domain.command.*;
 import com.cseiu.passnetorganizer.domain.request.AddDepartmentRequest;
 import com.cseiu.passnetorganizer.domain.request.AddSemesterRequest;
 import com.cseiu.passnetorganizer.domain.request.AddStudentRequest;
@@ -77,7 +74,7 @@ public class OrganizationController extends BaseController {
 
         var command = AddStudentCommand.builder()
            .cardId(request.getCardId())
-           .profileId(request.getProfileId())
+           .userId(request.getProfileId())
            .departmentId(depId)
            .build();
         command.setAggregateId(orgId);

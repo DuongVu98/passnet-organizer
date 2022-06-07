@@ -6,21 +6,22 @@ import com.cseiu.passnetorganizer.domain.aggregate.entity.Student;
 import com.cseiu.passnetorganizer.domain.aggregate.vo.*;
 import com.cseiu.passnetorganizer.domain.command.AddStudentCommand;
 import com.cseiu.passnetorganizer.domain.command.BaseCommand;
-import com.cseiu.passnetorganizer.domain.exception.CommandNotCompatibleException;
-import com.cseiu.passnetorganizer.domain.exception.DepartmentNotFoundException;
-import com.cseiu.passnetorganizer.domain.exception.OrganizationNotFoundException;
-import com.cseiu.passnetorganizer.domain.exception.StudentCardIdExistedException;
+import com.cseiu.passnetorganizer.domain.compensating.AddStudentCompensating;
+import com.cseiu.passnetorganizer.domain.compensating.BaseCompensating;
+import com.cseiu.passnetorganizer.domain.exception.*;
 import com.cseiu.passnetorganizer.domain.repository.DepartmentRepository;
 import com.cseiu.passnetorganizer.domain.repository.OrganizationRepository;
 import com.cseiu.passnetorganizer.domain.repository.StudentRepository;
-import com.cseiu.passnetorganizer.usecase.feature.CommandConverter;
+import com.cseiu.passnetorganizer.usecase.feature.CompensatingConverter;
 import com.cseiu.passnetorganizer.usecase.service.UuidService;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.extern.slf4j.Slf4j;
 
 @Builder
 @AllArgsConstructor
-public class AddStudentExecutor implements CommandExecutor, CommandConverter<AddStudentCommand> {
+@Slf4j(topic = "[AddStudentExecutor]")
+public class AddStudentExecutor implements CommandExecutor, CompensatingHandler, CompensatingConverter<AddStudentCommand, AddStudentCompensating> {
 
     private final OrganizationRepository organizationRepository;
     private final StudentRepository studentRepository;
@@ -29,8 +30,8 @@ public class AddStudentExecutor implements CommandExecutor, CommandConverter<Add
 
     @Override
     public void execute(BaseCommand command) {
-        var typedCommand = convert(command);
-
+        var typedCommand = convertCommand(command);
+        log.info("Execute command [{}]", typedCommand.toString());
         this.organizationRepository.findById(new OrgId(typedCommand.getAggregateId())).ifPresentOrElse(
            org -> {
                var department = checkDepartmentExists(findDepartment(typedCommand.getDepartmentId()), org);
@@ -40,7 +41,7 @@ public class AddStudentExecutor implements CommandExecutor, CommandConverter<Add
                    var newStudent = Student.builder()
                       .id(new StudentId(uuidService.generate()))
                       .cardId(new StudentCardId(typedCommand.getCardId()))
-                      .profileId(new ProfileId(typedCommand.getProfileId()))
+                      .userId(new UserId(typedCommand.getUserId()))
                       .department(department)
                       .build();
                    department.addStudent(newStudent);
@@ -54,7 +55,7 @@ public class AddStudentExecutor implements CommandExecutor, CommandConverter<Add
     }
 
     @Override
-    public AddStudentCommand convert(BaseCommand command) {
+    public AddStudentCommand convertCommand(BaseCommand command) {
         if (command instanceof AddStudentCommand) {
             return (AddStudentCommand) command;
         } else {
@@ -72,6 +73,27 @@ public class AddStudentExecutor implements CommandExecutor, CommandConverter<Add
             return department;
         } else {
             throw new DepartmentNotFoundException(String.format("Department [%s] not exists", department.getId().getValue()));
+        }
+    }
+
+    @Override
+    public void reverse(BaseCompensating compensating) {
+        var compensatingCommand = convertCompensating(compensating);
+        this.studentRepository.findStudentByUidAndOrgId(new UserId(compensatingCommand.getUserId()), new OrgId(compensatingCommand.getOrganizationId()))
+           .ifPresentOrElse(
+              this.studentRepository::delete,
+              () -> {
+                  throw new StudentNotFoundException(String.format("Student with uid %s not found", compensatingCommand.getUserId()));
+              }
+           );
+    }
+
+    @Override
+    public AddStudentCompensating convertCompensating(BaseCompensating command) {
+        if (command instanceof AddStudentCompensating) {
+            return (AddStudentCompensating) command;
+        } else {
+            throw new CommandNotCompatibleException("This command must be AddStudentCompensating");
         }
     }
 }

@@ -1,19 +1,16 @@
 package com.cseiu.passnetorganizer.adapter.controller;
 
-import com.cseiu.passnetorganizer.domain.command.AddDepartmentCommand;
-import com.cseiu.passnetorganizer.domain.command.AddSemesterCommand;
-import com.cseiu.passnetorganizer.domain.command.AddStudentCommand;
-import com.cseiu.passnetorganizer.domain.command.CreateOrganizationCommand;
-import com.cseiu.passnetorganizer.usecase.factory.ExecutorFactory;
+import com.cseiu.passnetorganizer.domain.command.*;
+import com.cseiu.passnetorganizer.usecase.factory.CommandExecutorFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class CommandGateway {
-    private final ExecutorFactory executorFactory;
+    private final CommandExecutorFactory executorFactory;
 
     @Autowired
-    public CommandGateway(ExecutorFactory executorFactory) {
+    public CommandGateway(CommandExecutorFactory executorFactory) {
         this.executorFactory = executorFactory;
     }
 
@@ -33,6 +30,11 @@ public class CommandGateway {
     }
 
     public void send(AddStudentCommand command) {
+        var executor = executorFactory.produce(command);
+        executor.execute(command);
+    }
+
+    public void send(AddNonStudentCommand command) {
         var executor = executorFactory.produce(command);
         executor.execute(command);
     }

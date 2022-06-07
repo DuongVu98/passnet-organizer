@@ -28,7 +28,7 @@ public class AddDepartmentExecutor implements CommandExecutor, CommandConverter<
 
     @Override
     public void execute(BaseCommand command) {
-        var typedCommand = convert(command);
+        var typedCommand = convertCommand(command);
         this.organizationRepository.findById(new OrgId(typedCommand.getAggregateId())).ifPresentOrElse(
            org -> {
                checkDepartmentCodeExist(typedCommand.getCode(), org);
@@ -48,7 +48,7 @@ public class AddDepartmentExecutor implements CommandExecutor, CommandConverter<
     }
 
     @Override
-    public AddDepartmentCommand convert(BaseCommand command) {
+    public AddDepartmentCommand convertCommand(BaseCommand command) {
         if (command instanceof AddDepartmentCommand) {
             return (AddDepartmentCommand) command;
         } else {
